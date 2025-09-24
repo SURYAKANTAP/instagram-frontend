@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from './Sidebar';
@@ -15,8 +15,7 @@ export default function AppLayout({ children }) {
     const pathname = usePathname();
  const { isStoryViewerOpen } = useFeed();
     // List of pages that do not require authentication
-    const publicPaths = ['/login', '/signup'];
-
+     const publicPaths = useMemo(() => ['/login', '/signup'], []);
     useEffect(() => {
         // Wait until the loading is complete
         if (loading) {

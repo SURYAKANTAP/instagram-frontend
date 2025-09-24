@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import api, {setAuthToken} from '../lib/api'; // Import our configured Axios instance
 
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
         router.replace('/'); // Redirect home after successful login
     };
 
-    const logoutAction = async () => {
+     const logoutAction = useCallback(async () => {
         try {
             await api.post('/auth/logout');
         } catch (error) {
@@ -92,9 +92,9 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setUser(null);
             setAuthToken(null);
-            router.replace('/login'); // Redirect to login page
+            router.replace('/login');
         }
-    };
+    }, [router]); // Dependency: router
 
     const value = {
         user,
