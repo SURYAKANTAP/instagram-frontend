@@ -4,6 +4,7 @@ import { GridOn, Movie, BookmarkBorder } from "@mui/icons-material";
 import { useAuth } from "@/app/context/AuthContext";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { PhotoCameraBack } from "@mui/icons-material";
+import Image from 'next/image';
 import api from "../lib/api";
 const ContentGrid = ({ items }) => {
   if (items.length === 0) {
@@ -20,7 +21,7 @@ const ContentGrid = ({ items }) => {
       {items.map((item) => (
         <div key={item._id} className="aspect-square bg-gray-800">
            {item.media ? (
-            <img
+            <Image
               src={item.media}
               alt={item.caption || "User content"}
               className="w-full h-full object-cover"
@@ -75,7 +76,7 @@ export default function ProfilePage() {
       {/* Profile Header */}
       <div className="flex items-center space-x-3 md:space-x-10 pb-6 border-b border-gray-700">
         <div className="space-y-4">
-          <img
+          <Image
             src={profileUser.profilePhoto || "/OSK.jpg"} // path is relative to /public
             alt={profileUser.username}
             className="w-30 h-30 rounded-full"

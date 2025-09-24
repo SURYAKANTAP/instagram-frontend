@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useFeed } from '../context/FeedContext';
 import { Close, MoreHoriz } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
+import Image from 'next/image';
 
 const STORY_DURATION_SECONDS = 5;
 
@@ -68,7 +69,7 @@ const handleDelete = () => {
 
                 {/* --- HEADER --- */}
                 <div className="absolute top-6 left-4 flex items-center z-10">
-                    <img src={activeStory.user.profilePhoto || '/OSK.jpg'} alt={activeStory.user.username} className="w-8 h-8 rounded-full object-cover" />
+                    <Image src={activeStory.user.profilePhoto || '/OSK.jpg'} alt={activeStory.user.username} className="w-8 h-8 rounded-full object-cover" />
                     <p className="ml-2 text-white font-semibold">{activeStory.user.username}</p>
                 </div>
                 <div className="absolute top-6 right-4 flex items-center space-x-2 text-white z-10">
@@ -101,7 +102,7 @@ const handleDelete = () => {
                         className="w-full h-full object-contain"
                     />
                 ) : (
-                    <img
+                    <Image
                         src={activeStory.media}
                         alt="Story content"
                         className="w-full h-full object-contain"

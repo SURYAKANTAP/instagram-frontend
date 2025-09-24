@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Search } from '@mui/icons-material';
 import api from '../lib/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Image from 'next/image';
 
 export default function SearchPage() {
     const [allUsers, setAllUsers] = useState([]);
@@ -55,7 +56,7 @@ export default function SearchPage() {
                 {filteredUsers.length > 0 ? (
                     filteredUsers.map(user => (
                         <div key={user._id} className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-800 transition-colors">
-                            <img
+                            <Image
                                 src={user.profilePhoto || '/OSK.jpg'}
                                 alt={user.username}
                                 className="w-12 h-12 rounded-full object-cover"

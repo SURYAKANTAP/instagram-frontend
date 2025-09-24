@@ -7,6 +7,7 @@ import {
   Favorite,
   MoreVert,
 } from "@mui/icons-material";
+import Image from 'next/image';
 
 import { useAuth } from '../context/AuthContext';
 import { useFeed } from '../context/FeedContext';
@@ -36,7 +37,7 @@ const PostCard = ({ post }) => {
     <div className="border-b border-gray-700 mb-8">
        <div className="flex items-center justify-between p-4">
         <div className="flex items-center">
-            <img
+            <Image
             src={post.user.profilePhoto || '/OSK.jpg'}
             alt={post.user.username}
             className="h-8 w-8 rounded-full object-cover"
@@ -66,7 +67,7 @@ const PostCard = ({ post }) => {
         )}
       </div>
 
-      <img
+      <Image
         src={post.media || "/OSK.jpg"} // path is relative to /public
         alt="Post Media"
     

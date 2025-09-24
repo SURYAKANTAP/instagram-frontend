@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { PhotoCameraBack, Movie, Book, ArrowBack } from '@mui/icons-material';
 import api from '../lib/api';
 import { useFeed } from '../context/FeedContext';
+import Image from 'next/image';
 
 const CONTENT_TYPES = { POST: 'Post', REEL: 'Reel', STORY: 'Story' };
 
@@ -58,7 +59,7 @@ const UploadForm = ({
           file && file.type.startsWith('video/') ? (
             <video src={previewUrl} controls className="w-full h-full object-contain rounded-lg" />
           ) : (
-            <img src={previewUrl} alt="Preview" className="w-full h-full object-contain rounded-lg" />
+            <Image src={previewUrl} alt="Preview" className="w-full h-full object-contain rounded-lg" />
           )
         ) : (
           <label htmlFor="file-upload" className="cursor-pointer text-center">
