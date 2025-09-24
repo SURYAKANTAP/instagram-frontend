@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api', // Your backend URL
+    // baseURL: 'http://localhost:8000/api', // Your backend URL
+    baseURL: 'https://instagram-backend-9xo7.onrender.com/api',
     withCredentials: true, // This is CRUCIAL for sending HttpOnly cookies
 });
 
