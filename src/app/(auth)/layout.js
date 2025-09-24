@@ -1,3 +1,4 @@
+"use client";
 export default function AuthLayout({ children }) {
     return (
         <div className="bg-black text-white flex items-center justify-center h-screen">
