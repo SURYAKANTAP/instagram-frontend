@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
         return () => {
             api.interceptors.response.eject(responseInterceptor);
         };
-    }, []);
+    }, [logoutAction]);
 
     const signupAction = async (credentials) => {
         // No need for try/catch here, the component will handle it

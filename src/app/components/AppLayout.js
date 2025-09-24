@@ -28,7 +28,7 @@ export default function AppLayout({ children }) {
             router.push('/login');
         }
 
-    }, [user, loading, pathname, router]);
+    }, [user, loading, pathname, router, publicPaths]);
 
 
     // While checking for user, show a loading screen
