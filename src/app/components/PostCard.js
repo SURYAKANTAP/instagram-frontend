@@ -42,6 +42,9 @@ const PostCard = ({ post }) => {
             src={post.user.profilePhoto || '/OSK.jpg'}
             alt={post.user.username}
             className="h-8 w-8 rounded-full object-cover"
+            width={32}
+            height={32}
+             priority={true}
             />
             <p className="ml-3 font-semibold">{post.user.username}</p>
         </div>
@@ -71,8 +74,11 @@ const PostCard = ({ post }) => {
       <Image
         src={post.media || "/OSK.jpg"} // path is relative to /public
         alt="Post Media"
-    
+            
          className="w-full h-auto"
+          width={600}
+          height={600}
+           priority={true}
       />
 
       {/* Post Actions */}

@@ -2,7 +2,7 @@
 import { useFeed } from './context/FeedContext';
 import StoryBar from './components/StoryBar';
 import PostCard from './components/PostCard';
-import LoadingSpinner from './components/LoadingSpinner';
+
 
 // It's good practice to create a skeleton for posts as well
 const PostFeedSkeleton = () => (

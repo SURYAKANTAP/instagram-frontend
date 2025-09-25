@@ -3,7 +3,10 @@ import { createContext, useState, useContext, useEffect } from 'react';
 import api from '../lib/api'; // Our configured Axios instance
 import { useAuth } from './AuthContext';
 
+
+
 const FeedContext = createContext();
+
 
 export const useFeed = () => useContext(FeedContext);
 

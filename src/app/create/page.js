@@ -1,13 +1,13 @@
 "use client";
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { PhotoCameraBack, Movie, Book, ArrowBack } from '@mui/icons-material';
-import api from '../lib/api';
-import { useFeed } from '../context/FeedContext';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { PhotoCameraBack, Movie, Book, ArrowBack } from "@mui/icons-material";
+import api from "../lib/api";
+import { useFeed } from "../context/FeedContext";
+import Image from "next/image";
 
-const CONTENT_TYPES = { POST: 'Post', REEL: 'Reel', STORY: 'Story' };
+const CONTENT_TYPES = { POST: "Post", REEL: "Reel", STORY: "Story" };
 
 // --- COMPONENT DEFINITIONS ARE NOW OUTSIDE THE MAIN COMPONENT ---
 
@@ -15,9 +15,21 @@ const SelectionScreen = ({ onSelect }) => (
   <div className="text-center">
     <h2 className="text-xl font-bold mb-6">Create</h2>
     <div className="grid grid-cols-3 gap-4">
-      <OptionBox type={CONTENT_TYPES.POST} icon={<PhotoCameraBack />} onSelect={onSelect} />
-      <OptionBox type={CONTENT_TYPES.REEL} icon={<Movie />} onSelect={onSelect} />
-      <OptionBox type={CONTENT_TYPES.STORY} icon={<Book />} onSelect={onSelect} />
+      <OptionBox
+        type={CONTENT_TYPES.POST}
+        icon={<PhotoCameraBack />}
+        onSelect={onSelect}
+      />
+      <OptionBox
+        type={CONTENT_TYPES.REEL}
+        icon={<Movie />}
+        onSelect={onSelect}
+      />
+      <OptionBox
+        type={CONTENT_TYPES.STORY}
+        icon={<Book />}
+        onSelect={onSelect}
+      />
     </div>
   </div>
 );
@@ -44,7 +56,7 @@ const UploadForm = ({
   setCaption,
   error,
   uploading,
-  handleSubmit
+  handleSubmit,
 }) => (
   <div>
     <div className="flex items-center border-b border-gray-700 pb-4 mb-4">
@@ -56,18 +68,38 @@ const UploadForm = ({
     <div className="flex flex-col md:flex-row gap-4">
       <div className="w-full md:w-1/2 flex items-center justify-center bg-gray-800 rounded-lg min-h-[20rem]">
         {previewUrl ? (
-          file && file.type.startsWith('video/') ? (
-            <video src={previewUrl} controls className="w-full h-full object-contain rounded-lg" />
+          file && file.type.startsWith("video/") ? (
+            <video
+              src={previewUrl}
+              controls
+              className="w-full h-full object-contain rounded-lg"
+            />
           ) : (
-            <Image src={previewUrl} alt="Preview" className="w-full h-full object-contain rounded-lg" />
+            <Image
+              src={previewUrl}
+              alt="Preview"
+              className="w-full h-full object-contain rounded-lg"
+              width={400}
+              height={400}
+               priority={true}
+            />
           )
         ) : (
           <label htmlFor="file-upload" className="cursor-pointer text-center">
-            <PhotoCameraBack sx={{ fontSize: 60 }} className="text-gray-500 mb-4" />
+            <PhotoCameraBack
+              sx={{ fontSize: 60 }}
+              className="text-gray-500 mb-4"
+            />
             <p className="text-blue-500 font-semibold">Select from computer</p>
           </label>
         )}
-        <input id="file-upload" type="file" accept="image/*,video/*" className="hidden" onChange={handleFileChange} />
+        <input
+          id="file-upload"
+          type="file"
+          accept="image/*,video/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
       </div>
       <div className="w-full md:w-1/2">
         <textarea
@@ -83,7 +115,7 @@ const UploadForm = ({
             disabled={uploading}
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded disabled:bg-gray-500 disabled:cursor-not-allowed"
           >
-            {uploading ? 'Uploading...' : 'Post'}
+            {uploading ? "Uploading..." : "Post"}
           </button>
         </div>
       </div>
@@ -91,21 +123,22 @@ const UploadForm = ({
   </div>
 );
 
-
 // --- MAIN PAGE COMPONENT ---
 export default function CreatePage() {
   const [creationType, setCreationType] = useState(null);
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   const router = useRouter();
   const { addPost, addReel, addStory } = useFeed();
 
   useEffect(() => {
-    return () => { if (previewUrl) URL.revokeObjectURL(previewUrl); };
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
   }, [previewUrl]);
 
   const handleFileChange = (e) => {
@@ -120,65 +153,66 @@ export default function CreatePage() {
     setCreationType(null);
     setFile(null);
     setPreviewUrl(null);
-    setCaption('');
-    setError('');
+    setCaption("");
+    setError("");
   };
-  
+
   const handleSubmit = async () => {
     if (!file) {
-      setError('Please select a file to upload.');
+      setError("Please select a file to upload.");
       return;
     }
-    setError('');
+    setError("");
     setUploading(true);
 
     try {
       // STEP 1: Get the secure signature from our backend
-      const signatureResponse = await api.get('/upload/signature');
-      const { signature, timestamp, api_key, cloud_name } = signatureResponse.data;
+      const signatureResponse = await api.get("/upload/signature");
+      const { signature, timestamp, api_key, cloud_name } =
+        signatureResponse.data;
 
       // STEP 2: Upload the file directly to Cloudinary using the signature
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('api_key', api_key);
-      formData.append('signature', signature);
-      formData.append('timestamp', timestamp);
-      
+      formData.append("file", file);
+      formData.append("api_key", api_key);
+      formData.append("signature", signature);
+      formData.append("timestamp", timestamp);
+
       const cloudinaryEndpoint = `https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`;
       const cloudinaryResponse = await fetch(cloudinaryEndpoint, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
       const cloudinaryData = await cloudinaryResponse.json();
       const mediaUrl = cloudinaryData.secure_url;
 
       if (!mediaUrl) {
-        throw new Error('Cloudinary upload failed.');
+        throw new Error("Cloudinary upload failed.");
       }
 
       // STEP 3: Save the returned URL to our backend
       let response;
       switch (creationType) {
         case CONTENT_TYPES.POST:
-          response = await api.post('/posts', { caption, media: mediaUrl });
+          response = await api.post("/posts", { caption, media: mediaUrl });
           addPost(response.data);
           break;
         case CONTENT_TYPES.REEL:
-          response = await api.post('/reels', { caption, video: mediaUrl });
+          response = await api.post("/reels", { caption, video: mediaUrl });
           addReel(response.data);
           break;
         case CONTENT_TYPES.STORY:
-          response = await api.post('/stories', { media: mediaUrl });
+          response = await api.post("/stories", { media: mediaUrl });
           addStory(response.data);
           break;
         default:
-          throw new Error('Invalid content type');
+          throw new Error("Invalid content type");
       }
-      
-      router.push('/'); // Redirect home on success
+
+      router.push("/"); // Redirect home on success
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to create content.');
+      setError(err.response?.data?.message || "Failed to create content.");
     } finally {
       setUploading(false);
     }
@@ -207,7 +241,3 @@ export default function CreatePage() {
     </div>
   );
 }
-
-
-
-

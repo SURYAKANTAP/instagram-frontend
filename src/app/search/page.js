@@ -6,6 +6,8 @@ import api from '../lib/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Image from 'next/image';
 
+
+
 export default function SearchPage() {
     const [allUsers, setAllUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -60,6 +62,9 @@ export default function SearchPage() {
                                 src={user.profilePhoto || '/OSK.jpg'}
                                 alt={user.username}
                                 className="w-12 h-12 rounded-full object-cover"
+                                width={48}
+                                height={48}
+                                 priority={true}
                             />
                             <div>
                                 <p className="font-semibold">{user.username}</p>
@@ -76,3 +81,4 @@ export default function SearchPage() {
         </div>
     );
 }
+

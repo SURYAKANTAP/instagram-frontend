@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ReelCard from '../components/ReelCard'; // <-- Import the new component
 
+
 export default function ReelsPage() {
     const [reels, setReels] = useState([]);
     const [loading, setLoading] = useState(true);

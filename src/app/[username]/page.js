@@ -25,6 +25,9 @@ const ContentGrid = ({ items }) => {
               src={item.media}
               alt={item.caption || "User content"}
               className="w-full h-full object-cover"
+              width={500}
+              height={500}
+              priority={true}
             />
           ) : (
             <video
@@ -80,6 +83,9 @@ export default function ProfilePage() {
             src={profileUser.profilePhoto || "/OSK.jpg"} // path is relative to /public
             alt={profileUser.username}
             className="w-30 h-30 rounded-full"
+            width={120}
+            height={120}
+             priority={true}
           />
           <button className="bg-gray-700 hover:bg-gray-600 font-semibold px-4 py-1 rounded">
             Edit profile
