@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import api, {setAuthToken, setupAuthInterceptor} from '../lib/api'; // Import our configured Axios instance
+import api, {setAuthToken} from '../lib/api'; // Import our configured Axios instance
 
 
 
@@ -39,15 +39,38 @@ export const AuthProvider = ({ children }) => {
         checkAuthStatus();
     }, []);
 
+    // Axios Interceptor to handle expired access tokens
     useEffect(() => {
-        // Call the setup function and pass it the logoutAction
-        const ejectInterceptor = setupAuthInterceptor(logoutAction);
-        
-        // Return the cleanup function
+        const responseInterceptor = api.interceptors.response.use(
+            response => response,
+            async (error) => {
+                const originalRequest = error.config;
+                // If the error is 401 and we haven't already retried
+                if (error.response.status === 401 && !originalRequest._retry) {
+                    originalRequest._retry = true;
+                    try {
+                        const response = await api.post('/auth/refresh-token');
+                        const { accessToken, user } = response.data;
+                        setAuthToken(accessToken);
+                        setUser(user);
+                        // Update the header of the original request with the new token
+                        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+                        return api(originalRequest);
+                    } catch (refreshError) {
+                        // If refresh token is also invalid, logout the user
+                        logoutAction();
+                        return Promise.reject(refreshError);
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        // Cleanup interceptor on component unmount
         return () => {
-            ejectInterceptor();
+            api.interceptors.response.eject(responseInterceptor);
         };
-    }, []); 
+    }, []);
 
     const signupAction = async (credentials) => {
         // No need for try/catch here, the component will handle it
